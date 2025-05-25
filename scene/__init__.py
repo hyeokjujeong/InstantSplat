@@ -24,7 +24,7 @@ class Scene:
 
     gaussians : GaussianModel
 
-    def __init__(self, args : ModelParams, gaussians : GaussianModel, load_iteration=None, opt=None, shuffle=True, resolution_scales=[1.0]):
+    def __init__(self, args : ModelParams, gaussians : GaussianModel, obj_idxs : np.ndarray, load_iteration=None, opt=None, shuffle=True, resolution_scales=[1.0]):
         """b
         :param path: Path to colmap scene main folder.
         """
@@ -91,7 +91,7 @@ class Scene:
                     np.linalg.inv(scene_info.train_poses),
                     [[fov2focal(i.FovX, i.width), fov2focal(i.FovY, i.height)] for i in scene_info.train_cameras],
                 )
-            self.gaussians.create_from_pcd(scene_info.point_cloud, self.cameras_extent, scale_gaussian)
+            self.gaussians.create_from_pcd(scene_info.point_cloud, self.cameras_extent, scale_gaussian, obj_idxs)
             self.gaussians.init_RT_seq(self.train_cameras)
             # self.gaussians.init_exposure_seq(self.train_cameras)
 

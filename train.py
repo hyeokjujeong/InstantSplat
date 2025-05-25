@@ -84,6 +84,15 @@ def load_and_prepare_confidence(confidence_path, device='cuda', scale=(0.1, 1.0)
     
     return lr_modifiers
 
+def load_and_prepare_masks(masks_path, device='cuda'):
+    """
+    
+    """
+    # Load and normalize
+    masks_np = np.load(masks_path)
+    
+    return masks_np
+
 
 def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoint_iterations, checkpoint, debug_from):
 
@@ -94,7 +103,11 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoi
     # per-point-optimizer
     confidence_path = os.path.join(dataset.source_path, f"sparse_{dataset.n_views}/0", "confidence_dsp.npy")
     confidence_lr = load_and_prepare_confidence(confidence_path, device='cuda', scale=(1, 100))
-    scene = Scene(dataset, gaussians)
+
+    mask_3d_path = os.path.join(dataset.source_path, f"sparse_{dataset.n_views}/0", "3d_masks.npy")
+    mask_3d = load_and_prepare_masks(mask_3d_path)
+
+    scene = Scene(dataset, gaussians, mask_3d)
 
     if opt.pp_optimizer:
         gaussians.training_setup_pp(opt, confidence_lr)                          
