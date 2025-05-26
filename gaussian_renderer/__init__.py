@@ -255,7 +255,7 @@ def render_object(
     rendered_image, radii = rasterizer(
         means3D=means3D,
         means2D=means2D,
-        shs=shs,
+        shs=None,
         colors_precomp=object_idx,
         opacities=opacity,
         scales=scales,
