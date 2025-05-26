@@ -24,7 +24,7 @@ from pathlib import Path
 
 from scene import Scene
 from scene.dataset_readers import loadCameras
-from gaussian_renderer import render, GaussianModel
+from gaussian_renderer import render, render_object, GaussianModel
 from utils.general_utils import safe_state
 from utils.pose_utils import get_tensor_from_camera
 from utils.loss_utils import l1_loss, ssim, l1_loss_mask, ssim_loss_mask
@@ -84,7 +84,7 @@ def render_set(model_path, name, iteration, views, gaussians, pipeline, backgrou
 
     for idx, view in enumerate(tqdm(views, desc="Rendering progress")):
         camera_pose = get_tensor_from_camera(view.world_view_transform.transpose(0, 1))
-        rendering = render(
+        rendering = render_object(
             view, gaussians, pipeline, background, camera_pose=camera_pose
         )["mask"]
         gt = view.original_image[0:3, :, :]
