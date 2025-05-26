@@ -5,6 +5,9 @@ import numpy as np
 from pathlib import Path
 from time import time
 
+import sys
+sys.path.append(os.path.abspath('/content/drive/MyDrive/InstantSplat'))
+
 os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'expandable_segments:True'
 from icecream import ic
 ic(torch.cuda.is_available())  # Check if CUDA is available
