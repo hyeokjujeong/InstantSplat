@@ -194,9 +194,11 @@ def render_sets(
     skip_test: bool,
     args,
 ):
+    mask_3d_path = os.path.join(dataset.source_path, f"sparse_{dataset.n_views}/0", "3d_masks.npy")
+    mask_3d = load_and_prepare_masks(mask_3d_path)
     with torch.no_grad():
         gaussians = GaussianModel(dataset.sh_degree)
-        scene = Scene(dataset, gaussians, load_iteration=iteration, opt=args, shuffle=False)
+        scene = Scene(dataset, gaussians, mask_3d, load_iteration=iteration, opt=args, shuffle=False)
 
         bg_color = [1, 1, 1] if dataset.white_background else [0, 0, 0]
         background = torch.tensor(bg_color, dtype=torch.float32, device="cuda")
