@@ -33,6 +33,7 @@ from utils.camera_utils import generate_interpolated_path
 from utils.camera_utils import visualizer
 from utils.mask_utils import get_corresponding_mask_paths, get_object_masks
 from arguments import ModelParams, PipelineParams, get_combined_args
+from train import load_and_prepare_masks
 
 def save_interpolate_pose(model_path, iter, n_views):
 
