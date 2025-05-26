@@ -63,7 +63,7 @@ def main(source_path, model_path, ckpt_path, device, batch_size, image_size, sch
     for i in range(len(masks)):
         mask_list.append((255*masks[i]['img']).squeeze(0).squeeze(0).long())
     
-    obj_list = get_object_masks(mask_list, output, model, pairs)
+    obj_list = get_object_masks(mask_list, output, model, pairs, device)
     final_masks = torch.zeros(len(mask_list), mask_list[0].shape[0], mask_list[0].shape[1], dtype=torch.int)
     for i in range(len(obj_list)):
         for j in range(len(mask_list)):
