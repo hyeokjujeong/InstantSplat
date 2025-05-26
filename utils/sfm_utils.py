@@ -355,7 +355,7 @@ def save_points3D(sparse_path, imgs, pts3d, confs, masks=None, use_masks=True, s
     if confs is not None:
         np.save(sparse_path / 'confidence_dsp.npy', confs)
     if final_masks is not None:
-        np.save(sparse_path / '3d_mask.npy', final_masks)
+        np.save(sparse_path / '3d_masks.npy', final_masks)
 
     storePly(points3D_ply_file, pts, col)
     if save_all_pts:
