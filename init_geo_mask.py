@@ -20,9 +20,9 @@ from dust3r.inference import inference
 from dust3r.utils.device import to_numpy
 from dust3r.utils.geometry import inv
 from dust3r.cloud_opt import global_aligner, GlobalAlignerMode
-from utils.sfm_utils import save_intrinsics, save_extrinsic, save_points3D, save_time, save_images_and_masks, init_filestructure, get_sorted_image_files, split_train_test, load_images, compute_co_vis_masks, load_images_single_channel
-from utils.camera_utils import generate_interpolated_path
-from utils.mask_utils import get_corresponding_mask_paths, get_object_masks
+from .utils.sfm_utils import save_intrinsics, save_extrinsic, save_points3D, save_time, save_images_and_masks, init_filestructure, get_sorted_image_files, split_train_test, load_images, compute_co_vis_masks, load_images_single_channel
+from .utils.camera_utils import generate_interpolated_path
+from .utils.mask_utils import get_corresponding_mask_paths, get_object_masks
 
 
 def main(source_path, model_path, ckpt_path, device, batch_size, image_size, schedule, lr, niter, 
