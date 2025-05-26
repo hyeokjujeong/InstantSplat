@@ -160,7 +160,7 @@ def update_obj_list(obj_list, temp_corr, n):
 
     return obj_list
 
-def get_object_masks(masks_list, fmoutput, fmodel):
+def get_object_masks(masks_list, fmoutput, fmodel, pairs):
   
     i=0
     obj_list = []
