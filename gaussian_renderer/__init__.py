@@ -215,7 +215,7 @@ def render_object(
     means3D = gaussians_xyz_trans
     means2D = screenspace_points
     object_idx = pc.object_idx
-    opacity = torch.ones_like(object_idx)
+    opacity = torch.ones_like(object_idx).float()
     object_idx = object_idx.unsqueeze(-1) if object_idx.ndim==1 else object_idx
     object_idx = object_idx.repeat(1,3)
     object_idx = object_idx.float() / 255.0
