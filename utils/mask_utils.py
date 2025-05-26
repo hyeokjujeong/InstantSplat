@@ -3,7 +3,7 @@ from pathlib import Path
 from typing import List, Tuple
 from mast3r.fast_nn import fast_reciprocal_NNs
 import torch
-
+import os
 
 def get_sorted_image_files_rgb(image_dir: str) -> Tuple[List[str], str]:
     """
