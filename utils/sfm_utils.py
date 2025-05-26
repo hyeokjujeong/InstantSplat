@@ -39,6 +39,10 @@ ImgNorm = tvf.Compose([
     tvf.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
 ])
 
+ImgNorm_single = tvf.Compose([
+    tvf.ToTensor(), 
+    #tvf.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+])
 
 def save_time(time_dir, process_name, sub_time):
     if isinstance(time_dir, str):
@@ -222,7 +226,7 @@ def load_images_single_channel(folder_or_list, size, square_ok=False, verbose=Tr
         W2, H2 = img.size
         if verbose:
             print(f' - adding {path} with resolution {W1}x{H1} --> {W2}x{H2}')
-        imgs.append(dict(img=ImgNorm(img)[None], true_shape=np.int32(
+        imgs.append(dict(img=ImgNorm_single(img)[None], true_shape=np.int32(
             [img.size[::-1]]), idx=len(imgs), instance=str(len(imgs))))
 
     assert imgs, 'no images foud at '+root
