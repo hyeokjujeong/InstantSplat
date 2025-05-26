@@ -330,7 +330,7 @@ def save_points3D(sparse_path, imgs, pts3d, confs, masks=None, use_masks=True, s
         pts = np.array(pts3d)
         col = np.array(imgs)
         confs = np.array(confs)
-        final_masks = np.array(mask_3d)
+        final_masks = np.array(masks_3d)
 
     pts = pts.reshape(-1, 3)
     col = col.reshape(-1, 3) * 255.
