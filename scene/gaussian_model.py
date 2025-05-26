@@ -260,7 +260,7 @@ class GaussianModel:
             l.append('scale_{}'.format(i))
         for i in range(self._rotation.shape[1]):
             l.append('rot_{}'.format(i))
-        l.append('object_idx')
+        #l.append('object_idx')
         return l
 
     def save_ply(self, path):
