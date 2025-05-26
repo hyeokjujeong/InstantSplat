@@ -85,18 +85,18 @@ def get_correspondance_mat(mask0, mask1, matches_im0, matches_im1):
     xs1, ys1 = matches_im1[:,0], matches_im1[:,1]
     im1_mask_idx = resized_mask1[xs1, ys1]
     for i in range(len(im0_mask_idx)):
-    correspondances[im0_mask_idx[i], im1_mask_idx[i]]+=1
-    corr_tf[im0_mask_idx[i], im1_mask_idx[i]] = 1
+        correspondances[im0_mask_idx[i], im1_mask_idx[i]]+=1
+        corr_tf[im0_mask_idx[i], im1_mask_idx[i]] = 1
     zero_one_corr = correspondances.argmax(dim=1)
     one_zero_corr = correspondances.argmax(dim=0)
     temp_corr = []
     for i in range(len(zero_one_corr)):
-    if corr_tf[i,zero_one_corr[i]]==1:
-        temp_corr.append([i, zero_one_corr[i].item()])
+        if corr_tf[i,zero_one_corr[i]]==1:
+            temp_corr.append([i, zero_one_corr[i].item()])
     for i in range(len(one_zero_corr)):
-    if corr_tf[one_zero_corr[i], i]==1:
-        if [one_zero_corr[i], i] not in temp_corr:
-        temp_corr.append([one_zero_corr[i].item(), i])
+        if corr_tf[one_zero_corr[i], i]==1:
+            if [one_zero_corr[i], i] not in temp_corr:
+                temp_corr.append([one_zero_corr[i].item(), i])
     return temp_corr
 
 def update_obj_list(obj_list, temp_corr, n):
