@@ -73,11 +73,16 @@ def get_valid_matches(fmoutput, fmodel, idx, device):
 
     return matches_im0, matches_im1
 
-def get_correspondance_mat(mask0, mask1, matches_im0, matches_im1):
+def get_correspondance_mat(mask0, mask1, matches_im0, matches_im1, threshold=0.01):
 
     resized_mask0 = (255*mask0).squeeze(0).squeeze(0).long().T
     resized_mask1 = (255*mask1).squeeze(0).squeeze(0).long().T
-
+    mask0_size = torch.zeros((torch.max(resized_mask0)+1)).long()
+    for i in range(torch.max(resized_mask0)+1):
+        mask0_size[i] = (resized_mask0==i).sum().item()
+    mask1_size = torch.zeros((torch.max(resized_mask1)+1)).long()
+    for i in range(torch.max(resized_mask1)+1):
+        mask1_size[i] = (resized_mask1==i).sum().item()
     correspondances = torch.zeros((torch.max(resized_mask0)+1, torch.max(resized_mask1)+1))
     corr_tf = -torch.ones((torch.max(resized_mask0)+1, torch.max(resized_mask1)+1))
     xs0, ys0 = matches_im0[:,0], matches_im0[:,1]
@@ -86,7 +91,12 @@ def get_correspondance_mat(mask0, mask1, matches_im0, matches_im1):
     im1_mask_idx = resized_mask1[xs1, ys1]
     for i in range(len(im0_mask_idx)):
         correspondances[im0_mask_idx[i], im1_mask_idx[i]]+=1
-        corr_tf[im0_mask_idx[i], im1_mask_idx[i]] = 1
+        #corr_tf[im0_mask_idx[i], im1_mask_idx[i]] = 1
+    for i in range(torch.max(resized_mask0)+1):
+        for j in range(torch.max(resized_mask1)+1):
+            min_size = min(mask0_size[i], mask1_size[j])
+            if correspondances[i, j]/min_size > threshold:
+                corr_tf[i, j] = 1
     zero_one_corr = correspondances.argmax(dim=1)
     one_zero_corr = correspondances.argmax(dim=0)
     temp_corr = []
@@ -97,35 +107,66 @@ def get_correspondance_mat(mask0, mask1, matches_im0, matches_im1):
         if corr_tf[one_zero_corr[i], i]==1:
             if [one_zero_corr[i], i] not in temp_corr:
                 temp_corr.append([one_zero_corr[i].item(), i])
+    for i in range(torch.max(resized_mask0)+1):
+        marker = False
+        for temp in range(temp_corr):
+            if temp[0] == i:
+                marker = True
+                break
+        if marker == False:
+            temp_corr.append([i, -1])
+    
+    for i in range(torch.max(resized_mask1)+1):
+        marker = False
+        for temp in range(temp_corr):
+            if temp[1] == i:
+                marker = True
+                break
+        if marker == False:
+            temp_corr.append([-1, i])
+    print(f'Mask Correspondances: {temp_corr}')
     return temp_corr
 
 def update_obj_list(obj_list, temp_corr, n):
     np1 = n + 1
     new_entries = []
 
-    for m_n, m_np1 in temp_corr:
-        matched = False
-        for obj in obj_list:
-            if str(n) in obj and m_n in obj[str(n)]:
-                if str(np1) not in obj:
-                    obj[str(np1)] = []
-                if m_np1 not in obj[str(np1)]:
-                    obj[str(np1)].append(m_np1)
-                matched = True
-                break
-            elif str(np1) in obj and m_np1 in obj[str(np1)]:
-                if str(n) not in obj:
-                    obj[str(n)] = []
-                if m_n not in obj[str(n)]:
-                    obj[str(n)].append(m_n)
-                matched = True
-                break
-        if not matched:
-            new_entries.append({str(n): [m_n], str(np1): [m_np1]})
+    if n==0 and not obj_list:
+        obj_list_0 = []
+        init_max = 0
+        for temp in temp_corr:
+            if temp[0]> init_max:
+                init_max = temp[0]
+        for i in range(init_max+1):
+            temp_dict = {}
+            temp_dict[str(n)] = [i]
+            obj_list_0.append(temp_dict)
+        obj_list = obj_list_0
+    elif n==0 or not obj_list:
+        assert AssertionError("Images except for idx 0 should have initialized object list")
 
+    for m_n, m_np1 in temp_corr:
+        if m_n != -1:
+            if m_np1 == -1:
+                for obj in obj_list:
+                    if str(n) in obj and m_n in obj[str(n)]:
+                        obj[str(np1)] = []
+                        break
+                continue
+            else: 
+                for obj in obj_list:
+                    if str(n) in obj and m_n in obj[str(n)]:
+                        if str(np1) not in obj:
+                            obj[str(np1)] = []
+                        if m_np1 not in obj[str(np1)]:
+                            obj[str(np1)].append(m_np1)
+                            break
+        else:
+            temp_dict = {str(i): [] for i in range(np1)}
+            temp_dict[str(np1)] = [m_np1]
+            new_entries.append(temp_dict)
     obj_list.extend(new_entries)
 
-    # 병합 단계: n 또는 n+1 이미지에서 겹치는 mask를 공유하는 dict끼리 병합
     merged = True
     while merged:
         merged = False
@@ -157,6 +198,7 @@ def update_obj_list(obj_list, temp_corr, n):
                     merged = True
             new_obj_list.append(base)
         obj_list = new_obj_list
+
 
     return obj_list
 
