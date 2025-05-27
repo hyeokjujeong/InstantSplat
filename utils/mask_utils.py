@@ -100,6 +100,7 @@ def get_correspondance_mat(mask0, mask1, matches_im0, matches_im1, threshold=0.0
     im0_mask_idx = resized_mask0[xs0, ys0]
     xs1, ys1 = matches_im1[:,0], matches_im1[:,1]
     im1_mask_idx = resized_mask1[xs1, ys1]
+    print(im0_mask_idx)
     for i in range(len(im0_mask_idx)):
         correspondances[im0_mask_idx[i], im1_mask_idx[i]]+=1
         #corr_tf[im0_mask_idx[i], im1_mask_idx[i]] = 1
@@ -108,6 +109,7 @@ def get_correspondance_mat(mask0, mask1, matches_im0, matches_im1, threshold=0.0
             min_size = min(mask0_size[i], mask1_size[j])
             if correspondances[i, j]/min_size > threshold:
                 corr_tf[i, j] = 1
+    print(f'correspondance : {correspondances}')
     zero_one_corr = correspondances.argmax(dim=1)
     one_zero_corr = correspondances.argmax(dim=0)
     temp_corr = []
