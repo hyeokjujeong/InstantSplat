@@ -143,7 +143,7 @@ def update_obj_list(obj_list, temp_corr, n):
             obj_list_0.append(temp_dict)
         obj_list = obj_list_0
     elif n==0 or not obj_list:
-        assert AssertionError("Images except for idx 0 should have initialized object list")
+        raise AssertionError("Images except for idx 0 should have initialized object list")
 
     for m_n, m_np1 in temp_corr:
         if m_n != -1:
