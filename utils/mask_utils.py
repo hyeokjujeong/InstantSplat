@@ -118,7 +118,7 @@ def get_correspondance_mat(mask0, mask1, matches_im0, matches_im1, threshold=0.0
         if corr_tf[one_zero_corr[i], i]==1:
             if [one_zero_corr[i], i] not in temp_corr:
                 temp_corr.append([one_zero_corr[i].item(), i])
-    for i in range(torch.max(resized_mask0)+1):
+    for i in range(torch.max(resized_mask0).item()+1):
         marker = False
         for temp in range(temp_corr):
             if temp[0] == i:
@@ -127,7 +127,7 @@ def get_correspondance_mat(mask0, mask1, matches_im0, matches_im1, threshold=0.0
         if marker == False:
             temp_corr.append([i, -1])
     
-    for i in range(torch.max(resized_mask1)+1):
+    for i in range(torch.max(resized_mask1).item()+1):
         marker = False
         for temp in range(temp_corr):
             if temp[1] == i:
