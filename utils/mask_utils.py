@@ -128,23 +128,27 @@ def get_correspondance_mat(mask0, mask1, matches_im0, matches_im1, threshold=0.0
     return temp_corr
 
 def update_obj_list(obj_list, temp_corr, n):
+    import copy
+
     np1 = n + 1
     new_entries = []
 
-    if n==0 and not obj_list:
+    # 초기 프레임 처리
+    if n == 0 and not obj_list:
         obj_list_0 = []
         init_max = 0
         for temp in temp_corr:
-            if temp[0]> init_max:
+            if temp[0] > init_max:
                 init_max = temp[0]
-        for i in range(init_max+1):
+        for i in range(init_max + 1):
             temp_dict = {}
             temp_dict[str(n)] = [i]
             obj_list_0.append(temp_dict)
         obj_list = obj_list_0
-    elif n==0 or not obj_list:
+    elif n == 0 or not obj_list:
         raise AssertionError("Images except for idx 0 should have initialized object list")
 
+    # correspondence에 따라 obj_list 업데이트
     for m_n, m_np1 in temp_corr:
         if m_n != -1:
             if m_np1 == -1:
@@ -153,60 +157,71 @@ def update_obj_list(obj_list, temp_corr, n):
                         obj[str(np1)] = []
                         break
                 continue
-            else: 
+            else:
                 for obj in obj_list:
                     if str(n) in obj and m_n in obj[str(n)]:
                         if str(np1) not in obj:
                             obj[str(np1)] = []
                         if m_np1 not in obj[str(np1)]:
                             obj[str(np1)].append(m_np1)
-                            break
+                        break
         else:
             temp_dict = {str(i): [] for i in range(np1)}
             temp_dict[str(np1)] = [m_np1]
             new_entries.append(temp_dict)
+
     obj_list.extend(new_entries)
 
+    # 병합 루프 (중복 제거 및 병합)
     merged = True
     while merged:
+        print('loop')
         merged = False
         new_obj_list = []
         used = [False] * len(obj_list)
+
         for i in range(len(obj_list)):
             if used[i]:
                 continue
-            base = obj_list[i].copy()
+            base = copy.deepcopy(obj_list[i])
             used[i] = True
+
             for j in range(i + 1, len(obj_list)):
                 if used[j]:
                     continue
                 other = obj_list[j]
                 overlap = False
+
+                # 병합 기준: np1에서의 object id가 겹치는 경우
                 for img_key in [str(np1)]:
                     if img_key in base and img_key in other:
                         if set(base[img_key]) & set(other[img_key]):
                             overlap = True
                             break
+
                 if overlap:
                     changed = False
                     for key in other:
                         if key in base:
                             before = set(base[key])
                             base[key].extend(other[key])
-                            base[key] = list(set(base[key]))  # 중복 제거
+                            base[key] = list(set(base[key]))
                             if set(base[key]) != before:
                                 changed = True
                         else:
                             base[key] = other[key][:]
                             changed = True
+
                     if changed:
                         used[j] = True
                         merged = True
+
             new_obj_list.append(base)
+
         obj_list = new_obj_list
 
-
     return obj_list
+
 
 def get_object_masks(masks_list, fmoutput, fmodel, pairs, device, threshold=0.01):
   
