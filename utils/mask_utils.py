@@ -78,7 +78,7 @@ def get_correspondance_mat(mask0, mask1, matches_im0, matches_im1, threshold=0.0
     resized_mask0 = (255*mask0).squeeze(0).squeeze(0).long().T
     resized_mask1 = (255*mask1).squeeze(0).squeeze(0).long().T
     
-
+    print(resized_mask0)
     print("resized_mask0 shape:", resized_mask0.shape)
     print("matches_im0 shape:", matches_im0.shape)
     print("matches_im0 dtype:", matches_im0.dtype)
