@@ -171,7 +171,7 @@ def update_obj_list(obj_list, temp_corr, n):
             new_entries.append(temp_dict)
 
     obj_list.extend(new_entries)
-
+    print(obj_list)
     # 병합 루프 (중복 제거 및 병합)
     merged = True
     while merged:
@@ -228,7 +228,6 @@ def get_object_masks(masks_list, fmoutput, fmodel, pairs, device, threshold=0.01
     i=0
     obj_list = []
     while i!= len(masks_list)-1:
-        print('get_obj_masks')
         for j in range(len(pairs)):
             if pairs[j][0]["idx"]==i and pairs[j][1]["idx"]==i+1:
             #mask0_pth , mask1_pth = mask_pths[i], mask_pths[i+1]
