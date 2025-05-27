@@ -74,7 +74,7 @@ def get_valid_matches(fmoutput, fmodel, idx, device):
     return matches_im0, matches_im1
 
 def get_correspondance_mat(mask0, mask1, matches_im0, matches_im1, threshold=0.01):
-
+    print('get_corr_mat start')
     resized_mask0 = (255*mask0).squeeze(0).squeeze(0).long().T
     resized_mask1 = (255*mask1).squeeze(0).squeeze(0).long().T
     mask0_size = torch.zeros((torch.max(resized_mask0)+1)).long()
