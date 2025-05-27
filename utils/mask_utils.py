@@ -188,14 +188,20 @@ def update_obj_list(obj_list, temp_corr, n):
                             overlap = True
                             break
                 if overlap:
+                    changed = False
                     for key in other:
                         if key in base:
+                            before = set(base[key])
                             base[key].extend(other[key])
                             base[key] = list(set(base[key]))  # 중복 제거
+                            if set(base[key]) != before:
+                                changed = True
                         else:
                             base[key] = other[key][:]
-                    used[j] = True
-                    merged = True
+                            changed = True
+                    if changed:
+                        used[j] = True
+                        merged = True
             new_obj_list.append(base)
         obj_list = new_obj_list
 
