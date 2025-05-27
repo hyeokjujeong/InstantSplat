@@ -84,15 +84,15 @@ def get_correspondance_mat(mask0, mask1, matches_im0, matches_im1, threshold=0.0
     print("matches_im0 dtype:", matches_im0.dtype)
     #print(matches_im0)
     #print(matches_im1)
-    print("matches_im0 max:", matches_im0.max(axis=0).values)
-    print("matches_im0 min:", matches_im0.min(axis=0).values)
+    print("matches_im0 max:", matches_im0.max(axis=0))
+    print("matches_im0 min:", matches_im0.min(axis=0))
     
 
     mask0_size = torch.zeros((torch.max(resized_mask0)+1)).long()
-    for i in range(torch.max(resized_mask0)+1):
+    for i in range(torch.max(resized_mask0).item()+1):
         mask0_size[i] = (resized_mask0==i).sum().item()
     mask1_size = torch.zeros((torch.max(resized_mask1)+1)).long()
-    for i in range(torch.max(resized_mask1)+1):
+    for i in range(torch.max(resized_mask1).item()+1):
         mask1_size[i] = (resized_mask1==i).sum().item()
     correspondances = torch.zeros((torch.max(resized_mask0)+1, torch.max(resized_mask1)+1))
     corr_tf = -torch.ones((torch.max(resized_mask0)+1, torch.max(resized_mask1)+1))
@@ -103,8 +103,8 @@ def get_correspondance_mat(mask0, mask1, matches_im0, matches_im1, threshold=0.0
     for i in range(len(im0_mask_idx)):
         correspondances[im0_mask_idx[i], im1_mask_idx[i]]+=1
         #corr_tf[im0_mask_idx[i], im1_mask_idx[i]] = 1
-    for i in range(torch.max(resized_mask0)+1):
-        for j in range(torch.max(resized_mask1)+1):
+    for i in range(torch.max(resized_mask0).item()+1):
+        for j in range(torch.max(resized_mask1).item()+1):
             min_size = min(mask0_size[i], mask1_size[j])
             if correspondances[i, j]/min_size > threshold:
                 corr_tf[i, j] = 1
