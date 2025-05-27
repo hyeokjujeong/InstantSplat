@@ -231,7 +231,9 @@ def get_object_masks(masks_list, fmoutput, fmodel, pairs, device, threshold=0.01
         for j in range(len(pairs)):
             if pairs[j][0]["idx"]==i and pairs[j][1]["idx"]==i+1:
             #mask0_pth , mask1_pth = mask_pths[i], mask_pths[i+1]
+                print('pairs loop init')
                 matches_im0, matches_im1 = get_valid_matches(fmoutput, fmodel, i, device)
+                print('matches init')
                 temp_corr = get_correspondance_mat(masks_list[i], masks_list[i+1], matches_im0, matches_im1, threshold)
                 print(temp_corr)
                 obj_list = update_obj_list(obj_list, temp_corr, i)
