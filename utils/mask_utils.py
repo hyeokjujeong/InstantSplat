@@ -77,6 +77,14 @@ def get_correspondance_mat(mask0, mask1, matches_im0, matches_im1, threshold=0.0
     print('get_corr_mat start')
     resized_mask0 = (255*mask0).squeeze(0).squeeze(0).long().T
     resized_mask1 = (255*mask1).squeeze(0).squeeze(0).long().T
+    
+
+    print("resized_mask0 shape:", resized_mask0.shape)
+    print("matches_im0 shape:", matches_im0.shape)
+    print("matches_im0 max:", matches_im0.max(dim=0).values)
+    print("matches_im0 min:", matches_im0.min(dim=0).values)
+    print("matches_im0 dtype:", matches_im0.dtype)
+
     mask0_size = torch.zeros((torch.max(resized_mask0)+1)).long()
     for i in range(torch.max(resized_mask0)+1):
         mask0_size[i] = (resized_mask0==i).sum().item()
@@ -233,11 +241,6 @@ def get_object_masks(masks_list, fmoutput, fmodel, pairs, device, threshold=0.01
             #mask0_pth , mask1_pth = mask_pths[i], mask_pths[i+1]
                 print('pairs loop init')
                 matches_im0, matches_im1 = get_valid_matches(fmoutput, fmodel, i, device)
-                print("resized_mask0 shape:", resized_mask0.shape)
-                print("matches_im0 shape:", matches_im0.shape)
-                print("matches_im0 max:", matches_im0.max(dim=0).values)
-                print("matches_im0 min:", matches_im0.min(dim=0).values)
-                print("matches_im0 dtype:", matches_im0.dtype)
                 print('matches init')
                 try:
                     temp_corr = get_correspondance_mat(masks_list[i], masks_list[i+1], matches_im0, matches_im1, threshold)
