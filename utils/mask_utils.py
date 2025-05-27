@@ -234,7 +234,13 @@ def get_object_masks(masks_list, fmoutput, fmodel, pairs, device, threshold=0.01
                 print('pairs loop init')
                 matches_im0, matches_im1 = get_valid_matches(fmoutput, fmodel, i, device)
                 print('matches init')
-                temp_corr = get_correspondance_mat(masks_list[i], masks_list[i+1], matches_im0, matches_im1, threshold)
+                try:
+                    temp_corr = get_correspondance_mat(masks_list[i], masks_list[i+1], matches_im0, matches_im1, threshold)
+                    print(f"temp_corr: {temp_corr}")
+                except Exception as e:
+                    print(f"❌ get_correspondance_mat failed: {e}")
+                    raise
+                #temp_corr = get_correspondance_mat(masks_list[i], masks_list[i+1], matches_im0, matches_im1, threshold)
                 print(temp_corr)
                 obj_list = update_obj_list(obj_list, temp_corr, i)
                 i+=1
