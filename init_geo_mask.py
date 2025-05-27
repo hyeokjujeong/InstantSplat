@@ -28,7 +28,7 @@ from dust3r.cloud_opt import global_aligner, GlobalAlignerMode
 
 
 def main(source_path, model_path, ckpt_path, device, batch_size, image_size, schedule, lr, niter, 
-         min_conf_thr, llffhold, n_views, co_vis_dsp, depth_thre, conf_aware_ranking=False, focal_avg=False, infer_video=False):
+         min_conf_thr, llffhold, n_views, co_vis_dsp, depth_thre, conf_aware_ranking=False, focal_avg=False, infer_video=False, threshold=0.01):
 
     # ---------------- (1) Load model and images ----------------  
     save_path, sparse_0_path, sparse_1_path = init_filestructure(Path(source_path), n_views)
@@ -63,7 +63,7 @@ def main(source_path, model_path, ckpt_path, device, batch_size, image_size, sch
     for i in range(len(masks)):
         mask_list.append((255*masks[i]['img']).squeeze(0).squeeze(0).long())
     
-    obj_list = get_object_masks(mask_list, output, model, pairs, device)
+    obj_list = get_object_masks(mask_list, output, model, pairs, device, threshold)
     final_masks = torch.zeros(len(mask_list), mask_list[0].shape[0], mask_list[0].shape[1], dtype=torch.int)
     for i in range(len(obj_list)):
         for j in range(len(mask_list)):
@@ -173,7 +173,8 @@ if __name__ == "__main__":
     parser.add_argument('--co_vis_dsp', action="store_true")
     parser.add_argument('--depth_thre', type=float, default=0.01, help='Depth threshold')
     parser.add_argument('--infer_video', action="store_true")
+    parser.add_argument('--mask_threshold', type=float, default=0.01)
 
     args = parser.parse_args()
     main(args.source_path, args.model_path, args.ckpt_path, args.device, args.batch_size, args.image_size, args.schedule, args.lr, args.niter,         
-          args.min_conf_thr, args.llffhold, args.n_views, args.co_vis_dsp, args.depth_thre, args.conf_aware_ranking, args.focal_avg, args.infer_video)
+          args.min_conf_thr, args.llffhold, args.n_views, args.co_vis_dsp, args.depth_thre, args.conf_aware_ranking, args.focal_avg, args.infer_video, args.mask_threshold)

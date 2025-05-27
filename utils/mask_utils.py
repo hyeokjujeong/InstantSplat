@@ -182,7 +182,7 @@ def update_obj_list(obj_list, temp_corr, n):
                     continue
                 other = obj_list[j]
                 overlap = False
-                for img_key in [str(n), str(np1)]:
+                for img_key in [str(np1)]:
                     if img_key in base and img_key in other:
                         if set(base[img_key]) & set(other[img_key]):
                             overlap = True
@@ -202,7 +202,7 @@ def update_obj_list(obj_list, temp_corr, n):
 
     return obj_list
 
-def get_object_masks(masks_list, fmoutput, fmodel, pairs, device):
+def get_object_masks(masks_list, fmoutput, fmodel, pairs, device, threshold=0.01):
   
     i=0
     obj_list = []
@@ -211,7 +211,7 @@ def get_object_masks(masks_list, fmoutput, fmodel, pairs, device):
             if pairs[j][0]["idx"]==i and pairs[j][1]["idx"]==i+1:
             #mask0_pth , mask1_pth = mask_pths[i], mask_pths[i+1]
                 matches_im0, matches_im1 = get_valid_matches(fmoutput, fmodel, i, device)
-                temp_corr = get_correspondance_mat(masks_list[i], masks_list[i+1], matches_im0, matches_im1)
+                temp_corr = get_correspondance_mat(masks_list[i], masks_list[i+1], matches_im0, matches_im1, threshold)
                 print(temp_corr)
                 obj_list = update_obj_list(obj_list, temp_corr, i)
                 i+=1
