@@ -63,7 +63,8 @@ def main(source_path, model_path, ckpt_path, device, batch_size, image_size, sch
     mask_list = []
     for i in range(len(masks)):
         mask_list.append((255*masks[i]['img']).squeeze(0).squeeze(0).long())
-    
+    array_3hw = np.stack([t.numpy() if isinstance(t, torch.Tensor) else t for t in mask_list], axis=0)
+    np.save(sparse_0_path/'2d_masks.npy', array_3hw)
     print('get_corr_mask')
     obj_list = get_object_masks(mask_list, output, model, pairs, device, threshold)
     print('get_corr_mask end')
