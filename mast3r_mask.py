@@ -287,7 +287,7 @@ def main(data_dir, video_dir,n_view, px, py, threshold):
         os.remove(dst_path)
     
     with open(txt_path, 'a') as f:
-        f.write(f"average: {avg_iou/(count_idx+1)}\n")
+        f.write(f"average: {avg_iou/(count_idx)}\n")
 
 
 if __name__ == "__main__":
