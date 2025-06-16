@@ -20,6 +20,7 @@ for i in {0..7}; do
 
             # 실행
             python mast3r_mask.py \
+                -d /content/drive/MyDrive/datasets/replica \
                 -s "${scenes[i]}" \
                 -n "${views[j]}" \
                 --px "${pxs[tmp]}" \
