@@ -165,7 +165,7 @@ def get_first_mask(mask_dir, gt_dir, px, py, thr=0.5):
     sam_mask = np.array(Image.open(mask_dir).convert('L'))
     gt_mask = np.array(Image.open(gt_dir).convert('RGB'))
     final_mask = np.zeros(sam_mask.shape, dtype=np.uint8)
-    gt_mask_perm = gt_mask.permute(1,2,0)
+    gt_mask_perm = gt_mask
     gt_color = gt_mask_perm[py, px]
     gt_mask_binary = gt_mask_perm[gt_mask_perm == gt_color]
     init_obj = {}
@@ -249,7 +249,7 @@ def main(data_dir, video_dir,n_view, px, py, threshold):
         mask_single = os.path.join(mask_dir, f'train_vis_sem_instance_{number_part}.png')
         mask = Image.open(mask_single).convert('RGB')
         mask_np = np.array(mask)
-        unique_colors = np.unique(mask_np.permute(1,2,0), axis=0)
+        unique_colors = np.unique(mask_np.reshape(-1, 3), axis=0)
         num_unique_colors = len(unique_colors)
         color_to_label = {tuple(color): idx for idx, color in enumerate(unique_colors)}
         new_mask = np.zeros(mask_np.shape[:2], dtype = np.uint8)
