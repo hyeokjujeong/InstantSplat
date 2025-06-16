@@ -207,10 +207,10 @@ def main(data_dir, video_dir,n_view, px, py, threshold):
             if os.path.splitext(p)[-1] in [".jpg", ".jpeg", ".JPG", ".JPEG"]]
     
         frame_names_sorted = sorted(frame_names, key=extract_num)
-        gt_dir = data_dir+'/vis_sem_instance'
+        gt_dir = data_dir+'/vis_sem_instance/'
         mask_dir = data_dir+'/raw_sam_mask'
         mask_names = [mask_dir+'/train_rgb_'+os.path.splitext(p)[0]+'.png' for p in frame_names_sorted]
-        gt_names = [gt_dir+'train_vis_sem_instance_'+os.path.splitext(p)[0]+'.png' for p in frame_names_sorted]
+        gt_names = [gt_dir+'/train_vis_sem_instance_'+os.path.splitext(p)[0]+'.png' for p in frame_names_sorted]
         first_mask , obj_color, obj_dict = get_first_mask(mask_names[0], gt_names[0], px, py)
 
         # when geometry init, only use train images
