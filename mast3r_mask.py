@@ -241,7 +241,7 @@ def main(data_dir, video_dir,n_view, px, py, threshold):
             for j in range(len(pairs)):
                 if pairs[j][0]["idx"]==i and pairs[j][1]["idx"]==i+1:
                     matches_im0, matches_im1 = get_valid_matches(output, model, j, device)
-                    temp_corr = get_correspondance_mat(masks_list[i], masks_list[i+1], matches_im0, matches_im1, threshold)
+                    temp_corr = get_correspondance_mat(mask_list[i], mask_list[i+1], matches_im0, matches_im1, threshold)
                     obj_dict = update_single_object(obj_dict, temp_corr, i)
 
         print(obj_dict)
