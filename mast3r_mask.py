@@ -243,6 +243,8 @@ def main(data_dir, video_dir,n_view, px, py, threshold):
                     matches_im0, matches_im1 = get_valid_matches(output, model, j, device)
                     temp_corr = get_correspondance_mat(mask_list[i], mask_list[i+1], matches_im0, matches_im1, threshold)
                     obj_dict = update_single_object(obj_dict, temp_corr, i)
+                    break
+            i+=1
 
         print(obj_dict)
         gt_mask_dir = os.path.join(data_dir, 'vis_sem_instance')
