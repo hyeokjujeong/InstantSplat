@@ -9,7 +9,7 @@ import shutil
 from PIL import Image
 import os
 
-
+from Time import time
 from utils.sfm_utils import save_intrinsics, save_extrinsic, save_points3D, save_time, save_images_and_masks, init_filestructure, get_sorted_image_files, split_train_test, load_images, compute_co_vis_masks, load_images_single_channel
 from utils.camera_utils import generate_interpolated_path
 from utils.mask_utils import get_corresponding_mask_paths, get_object_masks
