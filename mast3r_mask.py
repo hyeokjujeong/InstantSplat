@@ -235,7 +235,8 @@ def main(data_dir, video_dir,n_view, px, py, threshold):
         mask_list = []
         for i in range(len(masks)):
             mask_list.append((255*masks[i]['img']).squeeze(0).squeeze(0).long())
-
+        
+        i=0
         while i!= len(image_files)-1:
             for j in range(len(pairs)):
                 if pairs[j][0]["idx"]==i and pairs[j][1]["idx"]==i+1:
