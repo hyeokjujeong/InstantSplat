@@ -169,7 +169,7 @@ def get_first_mask(mask_dir, gt_dir, px, py, thr=0.5):
     print(gt_mask_perm.shape)
     gt_color = gt_mask_perm[py, px]
     print(gt_color.shape)
-    gt_mask_binary = gt_mask_perm[gt_mask_perm == gt_color]
+    gt_mask_binary = np.all(gt_mask_perm == gt_color, axis=-1)
     init_obj = {}
     init_obj['0']=[]
     for i in range(np.max(sam_mask).item()):
