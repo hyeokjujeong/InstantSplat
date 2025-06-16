@@ -181,7 +181,7 @@ def get_first_mask(mask_dir, gt_dir, px, py, thr=0.5):
     return final_mask, gt_color, init_obj
 
 
-def main(data_dir, video_dir,n_view, px, py):
+def main(data_dir, video_dir,n_view, px, py, threshold):
     test_dir = video_dir + '/test'
     final_video_dir = video_dir+'/train'
     test_files = [f for f in os.listdir(test_dir) if f.lower().endswith('.jpg')]
