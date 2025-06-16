@@ -161,9 +161,10 @@ def find_best_iou_for_pred(pred_mask, gt_masks):
     return best_iou, best_gt_idx
 
 def get_first_mask(mask_dir, gt_dir, px, py, thr=0.5):
-
-    sam_mask = np.array(Image.open(mask_dir).convert('L'))
     gt_mask = np.array(Image.open(gt_dir).convert('RGB'))
+    xs, ys, cs = gt_mask.shape
+    sam_mask_temp = Image.open(mask_dir).convert('L')
+    sam_mask = cv2.resize(sam_mask_temp, (xs,ys), interpolation=cv2.INTER_NEAREST)
     final_mask = np.zeros(sam_mask.shape, dtype=np.uint8)
     gt_mask_perm = gt_mask
     print(gt_mask_perm.shape)
