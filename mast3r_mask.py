@@ -262,6 +262,7 @@ def main(data_dir, video_dir,n_view, px, py, threshold):
 
         for color, label in color_to_label.items():
             if np.all(color == obj_color):
+                print('triggered')
                 mask = np.all(mask_np == color, axis=-1)
                 new_mask[mask] = 1
         pred_mask = np.zeros(mask_np.shape[:2], dtype=np.uint8)
