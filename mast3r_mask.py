@@ -199,7 +199,7 @@ def main(data_dir, video_dir,n_view, px, py, threshold):
         shutil.copyfile(src_path, dst_path)
 
         
-        image_dir = Path(source_path) / f'images/{n_view}_input'
+        image_dir = final_video_dir
         image_files, image_suffix = get_sorted_image_files(image_dir)
 
 
