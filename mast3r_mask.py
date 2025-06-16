@@ -243,9 +243,10 @@ def main(data_dir, video_dir,n_view, px, py, threshold):
                     temp_corr = get_correspondance_mat(masks_list[i], masks_list[i+1], matches_im0, matches_im1, threshold)
                     obj_dict = update_single_object(obj_dict, temp_corr, i)
 
-
+        print(obj_dict)
         gt_mask_dir = os.path.join(data_dir, 'vis_sem_instance')
         number_part = test_img.split('.')[0]
+        number_part = int(number_part)
         if number_part > 1000:
             number_part -=1000
         mask_single = os.path.join(mask_dir, f'train_vis_sem_instance_{number_part}.png')
