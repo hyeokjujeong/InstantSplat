@@ -196,6 +196,7 @@ def main(data_dir, video_dir,n_view, px, py, threshold):
 
     
     image_size  = 640
+    count_idx = 0
     for test_img in test_files:
         src_path = os.path.join(test_dir, test_img)
         dst_path = os.path.join(final_video_dir, test_img)
@@ -270,7 +271,9 @@ def main(data_dir, video_dir,n_view, px, py, threshold):
             if i in obj_dict[f'{len(image_files)-1}']:
                 masking_pred = (mask_list[-1] == i)
                 pred_mask[masking_pred] = 1
-        
+        pred_mask_img = Image.fromarray(pred_mask*255)
+        pred_mask_img.save(video_dir+f'/mask/{count_idx}.png')
+        count_idx+=1
         best_iou = iou_score(pred_mask, new_mask)
         print(f'Best IOU for {number_part}.png: {best_iou}')
 
