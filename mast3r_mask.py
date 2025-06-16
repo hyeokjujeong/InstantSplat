@@ -262,7 +262,7 @@ def main(data_dir, video_dir,n_view, px, py, threshold):
                 mask = np.all(mask_np == color, axis=-1)
                 new_mask[mask] = 1
         pred_mask = np.zeros(mask_np.shape[:2], dtype=np.uint8)
-        for i in range(len(mask_lsit)):
+        for i in range(len(mask_list)):
             if i in obj_dict[f'{len(image_files)}']:
                 masking_pred = (mask_list[-1] == i)
                 pred_mask[masking_pred] = 1
