@@ -230,8 +230,8 @@ def main(data_dir, video_dir,n_view, px, py, threshold):
         mask_names = [mask_dir+'/train_rgb_'+os.path.splitext(p)[0]+'.png' for p in frame_names_sorted]
         gt_names = [gt_dir+'train_vis_sem_instance_'+os.path.splitext(p)[0]+'.png' for p in frame_names_sorted]
 
-        train_mask_files = get_corresponding_mask_paths(image_files)
-        masks, org_masks_shape = load_images_single_channel(train_mask_files, image_size)
+        #train_mask_files = get_corresponding_mask_paths(image_files)
+        masks, org_masks_shape = load_images_single_channel(mask_names, image_size)
         mask_list = []
         for i in range(len(masks)):
             mask_list.append((255*masks[i]['img']).squeeze(0).squeeze(0).long())
