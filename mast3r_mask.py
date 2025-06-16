@@ -195,7 +195,7 @@ def main(data_dir, video_dir,n_view, px, py, threshold):
 
 
     
-    
+    image_size  = 640
     for test_img in test_files:
         src_path = os.path.join(test_dir, test_img)
         dst_path = os.path.join(final_video_dir, test_img)
