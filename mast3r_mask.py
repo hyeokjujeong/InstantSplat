@@ -258,7 +258,7 @@ def main(data_dir, video_dir,n_view, px, py, threshold):
         new_mask = np.zeros(mask_np.shape[:2], dtype = np.uint8)
 
         for color, label in color_to_label.items():
-            if color == obj_color:
+            if np.all(color == obj_color):
                 mask = np.all(mask_np == color, axis=-1)
                 new_mask[mask] = 1
         pred_mask = np.zeros(mask_np.shape[:2], dtype=np.uint8)
