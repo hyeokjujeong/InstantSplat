@@ -166,7 +166,9 @@ def get_first_mask(mask_dir, gt_dir, px, py, thr=0.5):
     gt_mask = np.array(Image.open(gt_dir).convert('RGB'))
     final_mask = np.zeros(sam_mask.shape, dtype=np.uint8)
     gt_mask_perm = gt_mask
+    print(gt_mask_perm.shape)
     gt_color = gt_mask_perm[py, px]
+    print(gt_color.shape)
     gt_mask_binary = gt_mask_perm[gt_mask_perm == gt_color]
     init_obj = {}
     init_obj['0']=[]
