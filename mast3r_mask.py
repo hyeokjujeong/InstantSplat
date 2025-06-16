@@ -249,7 +249,7 @@ def main(data_dir, video_dir,n_view, px, py, threshold):
         number_part = int(number_part)
         if number_part > 1000:
             number_part -=1000
-        mask_single = os.path.join(gt_mask_dir, f'train_vis_sem_instance_{number_part}.png')
+        mask_single = os.path.join(gt_mask_dir, f'train_vis_sem_instance_{number_part:04d}.png')
         mask = Image.open(mask_single).convert('RGB')
         mask_np = np.array(mask)
         unique_colors = np.unique(mask_np.reshape(-1, 3), axis=0)
