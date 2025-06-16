@@ -164,7 +164,7 @@ def get_first_mask(mask_dir, gt_dir, px, py, thr=0.5):
 
     sam_mask = np.array(Image.open(mask_dir).convert('L'))
     gt_mask = np.array(Image.open(gt_dir).convert('RGB'))
-    final mask = np.zeros(sam_mask.shape, dtype=np.uint8)
+    final_mask = np.zeros(sam_mask.shape, dtype=np.uint8)
     gt_mask_perm = gt_maks.permute(1,2,0)
     gt_color = gt_mask_perm[py, px]
     gt_mask_binary = gt_mask_perm[gt_mask_perm == gt_color]
