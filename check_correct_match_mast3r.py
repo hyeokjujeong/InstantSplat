@@ -152,12 +152,13 @@ def main(data_dir, video_dir,n_view, px, py):
                 if pairs[j][0]["idx"]==i and pairs[j][1]["idx"]==i+1:
                     matches_im0, matches_im1 = get_valid_matches(output, model, j, device)
                     acc = get_accuracy(mask_list[i], mask_list[i+1], matches_im0, matches_im1)
+                    print(acc)
                     acc_list.append(acc)
                     break
             
             i+=1
 
-        instance_acc = np.mean(acc_list).item()
+        instance_acc = np.mean(acc_list)
         
         
         
