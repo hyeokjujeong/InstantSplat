@@ -214,8 +214,15 @@ def main(data_dir, video_dir,n_view, px, py, threshold):
         frame_names_sorted = sorted(frame_names, key=extract_num)
         gt_dir = data_dir+'/vis_sem_instance/'
         mask_dir = data_dir+'/raw_sam_mask'
-        mask_names = [mask_dir+'/train_rgb_'+os.path.splitext(p)[0]+'.png' for p in frame_names_sorted]
-        gt_names = [gt_dir+'/train_vis_sem_instance_'+os.path.splitext(p)[0]+'.png' for p in frame_names_sorted]
+        frame_names_revised= []
+        for frame_name in frame_names_sorted:
+            temp_frame = int(os.path.split(frame_name)[0])
+            if temp_frame>1000:
+                temp_frame -=1000
+            revised = f'{temp_frame:04d}'
+            frame_names_revised.append(revised)
+        mask_names = [mask_dir+'/train_rgb_'+p+'.png' for p in frame_names_revised]
+        gt_names = [gt_dir+'/train_vis_sem_instance_'+p+'.png' for p in frame_names_revised]
         first_mask , obj_color, obj_dict = get_first_mask(mask_names[0], gt_names[0], px, py)
 
         # when geometry init, only use train images
@@ -228,9 +235,9 @@ def main(data_dir, video_dir,n_view, px, py, threshold):
         print(f'>> Inference...')
         output = inference(pairs, model, device, batch_size=1, verbose=True)
         
-        frame_names_sorted = sorted(frame_names, key=extract_num)
-        mask_names = [mask_dir+'/train_rgb_'+os.path.splitext(p)[0]+'.png' for p in frame_names_sorted]
-        gt_names = [gt_dir+'train_vis_sem_instance_'+os.path.splitext(p)[0]+'.png' for p in frame_names_sorted]
+        
+        mask_names = [mask_dir+'/train_rgb_'+p+'.png' for p in frame_names_revised]
+        gt_names = [gt_dir+'train_vis_sem_instance_'+p+'.png' for p in frame_names_revised]
 
         #train_mask_files = get_corresponding_mask_paths(image_files)
         masks, org_masks_shape = load_images_single_channel(mask_names, image_size)
