@@ -157,7 +157,7 @@ def main(data_dir, video_dir,n_view, px, py):
             
             i+=1
 
-        instance_acc = mean(acc_list)
+        instance_acc = np.mean(acc_list).item()
         
         
         
