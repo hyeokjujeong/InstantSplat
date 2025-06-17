@@ -173,6 +173,7 @@ def main(data_dir, video_dir,n_view, px, py):
 
 
         os.remove(dst_path)
+        count_idx+=1
     
     with open(txt_path, 'a') as f:
         f.write(f"{n_view}_input average: {avg_acc/(count_idx)}\n")
