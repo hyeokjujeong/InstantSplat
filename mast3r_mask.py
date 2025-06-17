@@ -216,7 +216,9 @@ def main(data_dir, video_dir,n_view, px, py, threshold):
         mask_dir = data_dir+'/raw_sam_mask'
         frame_names_revised= []
         for frame_name in frame_names_sorted:
-            temp_frame = int(os.path.split(frame_name)[0])
+            basename = os.path.basename(frame_name)       # '0000.jpg'
+            name_only = os.path.splitext(basename)[0]     # '0000'
+            temp_frame = int(name_only) 
             if temp_frame>1000:
                 temp_frame -=1000
             revised = f'{temp_frame:04d}'
