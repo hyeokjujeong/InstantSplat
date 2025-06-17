@@ -87,8 +87,10 @@ def get_accuracy(mask0, mask1, matches_im0, matches_im1):
     total_both = total_0 & total_1
     sum_both = total_both.sum().item()
     sum0 = total_0.sum().item()
-    print(sum_both, sum0)
+    #print(sum_both, sum0)
     accuracy = sum_both / sum0
+
+    return accuracy
 
 
 
