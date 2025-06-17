@@ -143,7 +143,7 @@ def main(data_dir, video_dir,n_view, px, py):
         output = inference(pairs, model, device, batch_size=1, verbose=True)
 
        
-       mask_list = get_gt_masks(gt_names, px, py)
+        mask_list = get_gt_masks(gt_names, px, py)
         
         acc_list = []
         i=0
