@@ -298,7 +298,7 @@ def main(data_dir, video_dir,n_view, px, py):
                             best_temp_corr = temp_corr
                             best_iter_iou = temp_iou
                         
-                    obj_dict = update_single_object(obj_dict, temp_corr, i)        
+                    obj_dict = update_single_object(obj_dict, best_temp_corr, i)        
                     
                     break
             i+=1
