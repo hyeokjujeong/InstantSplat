@@ -293,7 +293,7 @@ def main(data_dir, video_dir,n_view, px, py):
                         temp_corr = get_correspondance_mat(mask_list[i], mask_list[i+1], matches_im0, matches_im1, thr)
                         obj_list_np1 = check_single_object(obj_dict, temp_corr, i)
                         temp_pred_mask = get_temp_mask(mask_list, i+1, obj_list_np1)
-                        temp_iou = iou_score(pred_mask, gt_mask_list[i+1])
+                        temp_iou = iou_score(temp_pred_mask, gt_mask_list[i+1])
                         if temp_iou > best_iter_iou:
                             best_temp_corr = temp_corr
                             best_iter_iou = temp_iou
