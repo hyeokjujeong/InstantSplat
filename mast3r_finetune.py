@@ -332,7 +332,7 @@ def main(data_dir, video_dir,n_view, px, py):
         pred_mask_img.save(video_dir+f'/mask/{count_idx}.png')
         count_idx+=1
         best_iou = iou_score(pred_mask, new_mask)
-        print(f'Best IOU for {number_part}.png: {best_iou}')
+        print(f'Best IOU FT for {number_part}.png: {best_iou}')
         txt_path = video_dir+'/results.txt'
         with open(txt_path, 'a') as f:
             f.write(f"{best_iou}\n")
@@ -342,7 +342,7 @@ def main(data_dir, video_dir,n_view, px, py):
         os.remove(dst_path)
     
     with open(txt_path, 'a') as f:
-        f.write(f"average: {avg_iou/(count_idx)}\n")
+        f.write(f"FT average: {avg_iou/(count_idx)}\n")
 
 
 if __name__ == "__main__":
