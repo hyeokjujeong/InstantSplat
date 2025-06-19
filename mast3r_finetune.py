@@ -283,7 +283,7 @@ def main(data_dir, video_dir,n_view, px, py):
         
         i=0
         thr_list = [0.00125, 0.0025, 0.00375, 0.005, 0.00625, 0.0075, 0.00875, 0.01, 0.01125, 0.0125]
-        best_temp_corr = None:
+        best_temp_corr = None
         while i!= len(image_files)-1:
             best_iter_iou = 0
             for j in range(len(pairs)):
