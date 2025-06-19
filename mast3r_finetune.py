@@ -282,7 +282,7 @@ def main(data_dir, video_dir,n_view, px, py):
             mask_list.append((255*masks[i]['img']).squeeze(0).squeeze(0).long())
         
         i=0
-        thr_list = [0.00125, 0.0025, 0.00375, 0.005, 0.00625, 0.0075, 0.00875, 0.01, 0.01125, 0.0125]
+        thr_list = [0.0005, 0.0025, 0.005, 0.0075, 0.01, 0.0125, 0.015, 0.0175, 0.02]
         best_temp_corr = None
         while i!= len(image_files)-1:
             best_iter_iou = 0
