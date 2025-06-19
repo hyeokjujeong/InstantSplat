@@ -296,6 +296,7 @@ def main(data_dir, video_dir,n_view, px, py):
                         temp_iou = iou_score(pred_mask, gt_mask_list[i+1])
                         if temp_iou > best_iter_iou:
                             best_temp_corr = temp_corr
+                            best_iter_iou = temp_iou
                         
                     obj_dict = update_single_object(obj_dict, temp_corr, i)        
                     
